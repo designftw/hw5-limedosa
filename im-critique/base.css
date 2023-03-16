@@ -1,37 +1,32 @@
-/* add some css to make writeup prettier */
-/* based off the 6.s063 Website! */
+@import url("base.css");
 
 body {
 	display: flex;
 	flex-flow: column;
-    /* color:green; */
-	background: linear-gradient(45deg,  #c7b198, #dfd3c3);
-	/* background-position-x: var(--rainbow-offset); */
-	font-size: 22px;
+	background: var(--rainbow);
+	background-position-x: var(--rainbow-offset);
 }
 
-/* on the side  */
 body::before {
-	content: "Homework 5";
+	content: "Spring 2023";
 	position: fixed;
 	top: 0;
 	right: 0;
-	padding: 1em 2.5em;
+	padding: .5em 2.5em;
 	transform: rotate(45deg) translate(29%, 0em);
 	text-transform: uppercase;
 	font-size: 100%;
 	font-weight: bold;
 	line-height: 1;
-	background: #203562;
-	color: #e3e8f8;
+	background: var(--rainbow);
+	color: white;
 	transition: .5s opacity;
 }
 
+.scrolled body::before {
+	opacity: 0;
+}
 
-a:hover {
-    color: #e51526;
-    border-bottom: 2px solid #4a4a4a;
-  }
 #back-to-top {
 	--offset: .8em;
 
@@ -42,18 +37,18 @@ a:hover {
 	bottom: var(--offset);
 	right: var(--offset);
 
-	font-size: 100%;
+	font-size: 70%;
 	font-weight: 500;
 	line-height: 1.15;
 	text-align: center;
 	text-transform: uppercase;
 	letter-spacing: -.02em;
 
-	background: black;
-	color: rgb(255, 0, 0);
+	background: var(--rainbow);
+	color: white;
 	opacity: 0;
 
-	/* border: 3px solid rgb(255, 0, 204); */
+	border: 3px solid white;
 	border-radius: 20%;
 
 	cursor: pointer;
@@ -94,9 +89,9 @@ a:hover {
 	}
 
 h1, h2, h3, h4, h5, h6 {
-	font-size: 100%;
+	font-size: 100%; /* Ensure it never falls below 100% */
 	line-height: 1.1;
-	padding-bottom: .1em; 
+	padding-bottom: .1em; /* Prevent chopped off descenders in gradient text */
 	margin: 1em 0 .4em
 }
 
@@ -172,9 +167,8 @@ body > * {
 
 body > header {
 	display: flex;
-	color: #203562;
-	font-size: 150% 
-    /* makes the txt so big */
+	color: white;
+	font-size: 150%
 }
 
 body > header h1 {
@@ -198,7 +192,7 @@ body > header h1 strong {
 		}
 
 body > header h1 a {
-			text-decoration-color: #596e79;
+			text-decoration-color: hsla(0,0%,100%,.1);
 		}
 
 body > header nav ul {
@@ -266,13 +260,13 @@ body > header nav ul {
 
 main {
 	flex: 1;
-	background-image: linear-gradient(90deg, #c7b198, #dfd3c3);
+	background: hsla(0,0%,100%,.9)
 }
 
 main h2 {
 		font-size: 300%;
 		margin: .5em 0;
-        color:#203562 !important;        
+		color: var(--c2);
 	}
 
 main h3 {
@@ -306,15 +300,13 @@ main pre[class*="language-"] {
 	border-radius: .3em;
 }
 
-/* for all the things that have warnings, announcements, etc. */
-/* .tip, */
+.tip,
 .warning,
 .deliverable,
 .announcement,
 .note {
 	position: relative;
-	background: #203562;
-    color: white;
+	background: white;
 	padding-left: 1.5em
 }
 
@@ -326,7 +318,63 @@ main pre[class*="language-"] {
 		font-family: emoji;
 	}
 
+.tip:is(:not(p)), .warning:is(:not(p)), .deliverable:is(:not(p)), .announcement:is(:not(p)), .note:is(:not(p)) {
+		margin: 1em 0
+	}
 
+.tip:is(:not(p)) > :is(p, ul, ol):first-child, .warning:is(:not(p)) > :is(p, ul, ol):first-child, .deliverable:is(:not(p)) > :is(p, ul, ol):first-child, .announcement:is(:not(p)) > :is(p, ul, ol):first-child, .note:is(:not(p)) > :is(p, ul, ol):first-child {
+				margin-top: 0;
+			}
+
+.tip:is(:not(p)) > :is(p, ul, ol):last-child, .warning:is(:not(p)) > :is(p, ul, ol):last-child, .deliverable:is(:not(p)) > :is(p, ul, ol):last-child, .announcement:is(:not(p)) > :is(p, ul, ol):last-child, .note:is(:not(p)) > :is(p, ul, ol):last-child {
+				margin-bottom: 0;
+			}
+
+.tip::after {
+		content: "💡 "
+	}
+
+.warning::after {
+		content: "⚠️ ";
+	}
+
+.note::after {
+		content: "👉🏼 "
+	}
+
+.deliverable::after {
+		content: "👉🏼 "
+	}
+
+.announcement::after {
+		content: "📣";
+	}
+
+th,
+td {
+	border-radius: .2rem;
+}
+
+th:not(:empty) {
+	position: sticky;
+	top: 0;
+	z-index: 1;
+	padding: .2em;
+	order: -1;
+	color: var(--c2);
+	font-size: 120%;
+	font-weight: bold;
+	text-transform: uppercase;
+	text-align: center;
+	background: var(--rainbow);
+	color: hsla(0, 0%, 100%, .8);
+	letter-spacing: -.02em;
+}
+
+td {
+	padding: .6em;
+	background: white;
+}
 
 table#schedule {
 	display: grid;
@@ -379,11 +427,97 @@ table#schedule td:nth-child(3) {
 			--day: "Fri";
 		}
 
+table#schedule td:first-child::before {
+			counter-increment: week;
+			content: "Week " counter(week);
+			position: absolute;
+			right: 100%;
+			top: .5em;
+			writing-mode: vertical-rl;
+			transform: rotate(.5turn);
+			color: white;
+			text-transform: uppercase;
+			font-weight: bold;
+			line-height: .9;
+		}
 
+table#schedule td:not(.no-class):not(:nth-child(3)) .title::before {
+			counter-increment: lecture;
+			content: "Lecture " counter(lecture);
+			display: block;
+			text-transform: uppercase;
+			font-size: 80%;
+		}
 
+table#schedule td.today,
+		table#schedule td.upcoming {
+			overflow: hidden
+		}
 
+table#schedule td.today::after, table#schedule td.upcoming::after {
+				content: "Today";
+				position: absolute;
+				top: 0;
+				right: 0;
+				padding: .3em 2em;
+				transform: rotate(45deg) translate(25%, -.8em);
+				text-transform: uppercase;
+				font-size: 60%;
+				font-weight: bold;
+				background: var(--c1);
+				color: white;
+			}
 
+table#schedule td.today.upcoming::after, table#schedule td.upcoming.upcoming::after {
+				content: "Upcoming";
+				background: var(--c4);
+			}
 
+table#schedule td.no-class .title {
+				font-style: italic;
+			}
+
+table#schedule td.no-class > time,
+			table#schedule td.no-class > .title {
+				opacity: .5;
+			}
+
+table#schedule td > :not(time) {
+			grid-column: 2;
+		}
+
+table#schedule td time {
+			grid-column: 1;
+			grid-row: 1 / span 4;
+			border: 1px solid transparent;
+			background: linear-gradient(transparent .6em, hsla(0, 0%, 100%, .9) 0), var(--rainbow);
+			background-clip: padding-box, border-box;
+			text-align: center;
+			font-size: 250%;
+			margin-right: .4em;
+			margin-bottom: auto;
+			border-radius: 2px;
+			white-space: pre-line;
+			text-transform: uppercase;
+			display: flex;
+			flex-direction: column
+		}
+
+table#schedule td time .month {
+				font-size: 40%;
+				color: white;
+				font-weight: bold;
+			}
+
+@media (max-width: 949px) {
+			table#schedule td {
+				grid-template-columns: 7em 1fr;
+			}
+				table#schedule td time .month::before {
+					content: var(--day) ", ";
+					opacity: .7;
+				}
+		}
 
 table#schedule td > a {
 			display: block;
@@ -432,6 +566,71 @@ table#schedule a {
 	background: hsla(0, 100%, 50%, .15);
 	padding: .1em .5em;
 	border-radius: .15em;
-	color: #203562;
+	color: hsl(0, 100%, 20%);
 	font-weight: bold;
+}
+
+#schedule .assignment-due {
+	font-weight: bold;
+}
+
+#schedule .pre-reading {
+
+}
+
+	#schedule .pre-reading::before,
+	#schedule .assignment-released::before,
+	.assignment-due::before {
+		content: "";
+		display: inline-block;
+		vertical-align: -.1em;
+		width: 1em;
+		height: 1em;
+		background: var(--icon) no-repeat, var(--rainbow);
+		--icon: url('data:image/svg+xml,\
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">\
+			<text y="1em" font-size="90">📚</text>\
+		</svg>');
+		-webkit-mask-image: var(--icon);
+		background-blend-mode: luminosity, normal;
+		font-size: 110%;
+	}
+
+	.assignment-due::before {
+		content: "";
+		--icon: url('data:image/svg+xml,\
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">\
+			<text y="1em" font-size="90">⌛️</text>\
+		</svg>');
+		background: var(--icon) no-repeat, var(--c1);
+	}
+
+#schedule .assignment-released::before {
+		content: "";
+		--icon: url('data:image/svg+xml,\
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">\
+			<text y="1em" font-size="90">⏳</text>\
+		</svg>');
+	}
+
+/* Rainbow text */
+@supports (-webkit-background-clip: text) {
+	main h2,
+	#schedule td:not(.no-class) .title::before {
+		background: var(--rainbow);
+		-webkit-background-clip: text;
+		color: transparent;
+
+		/* Workaround for Gecko bugs #1313757 #1571244 */
+		background-attachment: scroll;
+		background-position: calc(var(--rainbow-offset) - var(--left)) calc(-1 * var(--top));
+	}
+}
+
+.mit-email::after {
+	content: "@mit.edu"
+}
+
+[mv-app][mv-permissions~="logout"] .mv-if-logged-out {
+	display: none;
 }
